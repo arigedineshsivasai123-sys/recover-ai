@@ -1,0 +1,38 @@
+# Environment files & secrets (CRITICAL)
+.env
+*.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+
+# Dependencies & Virtual Environments
+.venv/
+venv/
+env/
+node_modules/
+frontend/node_modules/
+
+# Build & Output Artifacts
+dist/
+build/
+frontend/dist/
+*.egg-info/
+
+# Databases
+*.db
+*.sqlite
+backend/*.db
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
