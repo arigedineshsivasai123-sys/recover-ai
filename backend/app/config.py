@@ -12,7 +12,16 @@ class Settings(BaseSettings):
     RAZORPAY_KEY_ID: str = os.getenv("RAZORPAY_KEY_ID", "rzp_test_recoverai_demo")
     RAZORPAY_KEY_SECRET: str = os.getenv("RAZORPAY_KEY_SECRET", "demo_secret_key_12345")
     
-    AI_API_KEY: str = os.getenv("AI_API_KEY", "")
+    _ai_api_key: str = os.getenv("AI_API_KEY", "")
+
+    @property
+    def AI_API_KEY(self) -> str:
+        return (
+            os.getenv("AI_API_KEY") or
+            os.getenv("GEMINI_API_KEY") or
+            os.getenv("GOOGLE_API_KEY") or
+            self._ai_api_key
+        ).strip()
 
     class Config:
         env_file = ".env"

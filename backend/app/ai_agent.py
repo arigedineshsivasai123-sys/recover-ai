@@ -30,9 +30,10 @@ class AIAgent:
         }
 
         # Try Live LLM API if key is present
-        if settings.AI_API_KEY:
+        api_key = settings.AI_API_KEY
+        if api_key:
             try:
-                llm_response = self._call_llm_api(context_payload)
+                llm_response = self._call_llm_api(context_payload, api_key)
                 if llm_response:
                     llm_response["demo_mode"] = False
                     return llm_response
@@ -42,7 +43,7 @@ class AIAgent:
         # Structured Contextual AI Reasoning Engine (Fallback / Offline Demo)
         return self._structured_contextual_reasoning(context_payload)
 
-    def _call_llm_api(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def _call_llm_api(self, payload: Dict[str, Any], api_key: str) -> Dict[str, Any]:
         prompt = f"""
         You are RecoverAI, an expert AI revenue recovery agent.
         Analyze this failed e-commerce transaction context:
@@ -60,12 +61,12 @@ class AIAgent:
         """
 
         headers = {"Content-Type": "application/json"}
-        # Primary supported Gemini model
-        model_names = ["gemini-2.5-flash"]
+        # Fallback model list across supported Gemini API models
+        model_names = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
         
         with httpx.Client(timeout=30.0) as client:
             for model in model_names:
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={settings.AI_API_KEY}"
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
                 req_body = {
                     "contents": [{"parts": [{"text": prompt}]}],
                     "generationConfig": {"response_mime_type": "application/json"}
@@ -75,13 +76,24 @@ class AIAgent:
                     if resp.status_code == 200:
                         data = resp.json()
                         text = data["candidates"][0]["content"]["parts"][0]["text"]
-                        parsed = json.loads(text)
+                        
+                        # Strip potential markdown formatting (e.g. ```json ... ```)
+                        cleaned_text = text.strip()
+                        if cleaned_text.startswith("```"):
+                            lines = cleaned_text.splitlines()
+                            if lines[0].startswith("```"):
+                                lines = lines[1:]
+                            if lines and lines[-1].startswith("```"):
+                                lines = lines[:-1]
+                            cleaned_text = "\n".join(lines).strip()
+
+                        parsed = json.loads(cleaned_text)
                         parsed["demo_mode"] = False
                         return parsed
                     else:
-                        print(f"Gemini API ({model}) returned HTTP {resp.status_code}: {resp.text[:200]}")
+                        print(f"Gemini API ({model}) returned HTTP {resp.status_code}")
                 except Exception as err:
-                    print(f"Gemini API ({model}) error: {err}")
+                    print(f"Gemini API ({model}) execution error")
 
         return None
 
