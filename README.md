@@ -1,6 +1,6 @@
 # RecoverAI
 
-🚀 **Live Demo:** https://recover-ai-pi-ten.vercel.app
+🚀 **Live Demo:** recover-ai-pi-ten.vercel.app or https://recover-ai-pi-ten.vercel.app
    
    
 # 🛡️ RecoverAI — Controlled AI Revenue Recovery Agent
