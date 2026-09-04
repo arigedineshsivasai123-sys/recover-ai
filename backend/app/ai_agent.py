@@ -43,6 +43,55 @@ class AIAgent:
         # Structured Contextual AI Reasoning Engine (Fallback / Offline Demo)
         return self._structured_contextual_reasoning(context_payload)
 
+    def _discover_available_models(self, api_key: str) -> list:
+        """
+        Queries Google's Models API to dynamically discover generateContent-capable models available to the API key.
+        Prioritizes gemini-2.5-flash, gemini-flash-latest, gemini-2.0-flash, gemini-2.5-flash-lite.
+        """
+        discovered = []
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
+            with httpx.Client(timeout=10.0) as client:
+                resp = client.get(url)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    for m in data.get("models", []):
+                        methods = m.get("supportedGenerationMethods", [])
+                        if "generateContent" in methods:
+                            clean_name = m.get("name", "").replace("models/", "")
+                            discovered.append(clean_name)
+        except Exception:
+            pass
+
+        # Priority selection list preferring modern Flash models
+        priority_order = [
+            "gemini-2.5-flash",
+            "gemini-flash-latest",
+            "gemini-2.0-flash",
+            "gemini-2.5-flash-lite",
+            "gemini-1.5-flash",
+            "gemini-2.5-pro",
+            "gemini-pro-latest"
+        ]
+
+        models_to_try = []
+        for p in priority_order:
+            if p in discovered and p not in models_to_try:
+                models_to_try.append(p)
+
+        for d in discovered:
+            if "flash" in d and d not in models_to_try:
+                models_to_try.append(d)
+
+        for d in discovered:
+            if d not in models_to_try:
+                models_to_try.append(d)
+
+        if not models_to_try:
+            models_to_try = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash", "gemini-1.5-flash"]
+
+        return models_to_try
+
     def _call_llm_api(self, payload: Dict[str, Any], api_key: str) -> Dict[str, Any]:
         prompt = f"""
         You are RecoverAI, an expert AI revenue recovery agent.
@@ -61,8 +110,7 @@ class AIAgent:
         """
 
         headers = {"Content-Type": "application/json"}
-        # Fallback model list across supported Gemini API models
-        model_names = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
+        model_names = self._discover_available_models(api_key)
         
         with httpx.Client(timeout=30.0) as client:
             for model in model_names:
@@ -90,9 +138,11 @@ class AIAgent:
                         parsed = json.loads(cleaned_text)
                         parsed["demo_mode"] = False
                         return parsed
+                    elif resp.status_code == 429:
+                        print(f"Gemini API ({model}) rate limited (HTTP 429), trying next model...")
                     else:
                         print(f"Gemini API ({model}) returned HTTP {resp.status_code}")
-                except Exception as err:
+                except Exception:
                     print(f"Gemini API ({model}) execution error")
 
         return None
