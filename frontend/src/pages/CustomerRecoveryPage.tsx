@@ -31,7 +31,7 @@ export const CustomerRecoveryPage: React.FC = () => {
       api
         .getOpportunityDetail(transactionId)
         .then((data) => setTx(data))
-        .catch(() => setErrorMessage('Transaction link expired or invalid.'))
+        .catch((e) => setErrorMessage('Transaction link expired or invalid.'))
         .finally(() => setLoading(false));
     }
   }, [transactionId]);
@@ -78,18 +78,18 @@ export const CustomerRecoveryPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#070D22] flex flex-col items-center justify-center p-4 relative">
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 relative">
         <div className="w-full max-w-md mx-auto mb-8">
           <button
             onClick={handleNavigateDashboard}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-blue-900/40 border border-blue-800/60 px-3.5 py-2 rounded-xl transition cursor-pointer shadow-sm"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-emerald-400 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl transition cursor-pointer shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>← Back to Merchant Dashboard</span>
           </button>
         </div>
         <div className="text-center space-y-3">
-          <RefreshCw className="w-8 h-8 text-blue-400 animate-spin mx-auto" />
+          <RefreshCw className="w-8 h-8 text-emerald-400 animate-spin mx-auto" />
           <div className="text-slate-400 text-xs font-mono">Loading Payment Recovery Portal...</div>
         </div>
       </div>
@@ -98,18 +98,18 @@ export const CustomerRecoveryPage: React.FC = () => {
 
   if (paymentResult?.success) {
     return (
-      <div className="min-h-screen bg-[#070D22] flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto mb-4">
           <button
             onClick={handleNavigateDashboard}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-blue-900/40 border border-blue-800/60 px-3.5 py-2 rounded-xl transition cursor-pointer shadow-sm"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-emerald-400 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl transition cursor-pointer shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>← Back to Merchant Dashboard</span>
           </button>
         </div>
 
-        <div className="bg-[#0D1636] border border-emerald-500/30 rounded-3xl max-w-md w-full p-8 text-center space-y-6 shadow-2xl">
+        <div className="bg-slate-900 border border-emerald-500/30 rounded-3xl max-w-md w-full p-8 text-center space-y-6 shadow-2xl">
           <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
             <CheckCircle2 className="w-10 h-10" />
           </div>
@@ -119,7 +119,7 @@ export const CustomerRecoveryPage: React.FC = () => {
             <p className="text-xs text-slate-400 mt-1">Razorpay Payment Verified Successfully</p>
           </div>
 
-          <div className="bg-[#080E24] p-4 rounded-2xl border border-blue-950 text-xs space-y-2 text-left">
+          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs space-y-2 text-left">
             <div className="flex justify-between">
               <span className="text-slate-400">Order ID</span>
               <span className="font-mono text-white font-semibold">{tx?.txn_code}</span>
@@ -140,7 +140,7 @@ export const CustomerRecoveryPage: React.FC = () => {
 
           <button
             onClick={handleNavigateDashboard}
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition cursor-pointer shadow-lg shadow-blue-600/30"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 text-white font-bold text-xs transition cursor-pointer shadow-lg shadow-emerald-500/20"
           >
             Return to Merchant Dashboard
           </button>
@@ -150,12 +150,12 @@ export const CustomerRecoveryPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#070D22] flex flex-col items-center justify-center p-4">
-      {/* Header Bar */}
+    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
+      {/* Header Bar with Always-Accessible Back Link */}
       <div className="max-w-md w-full mb-4 flex items-center justify-between">
         <button
           onClick={handleNavigateDashboard}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-blue-900/40 border border-blue-800/60 px-3.5 py-2 rounded-xl transition cursor-pointer shadow-sm"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-emerald-400 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl transition cursor-pointer shadow-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>← Back to Merchant Dashboard</span>
@@ -166,11 +166,11 @@ export const CustomerRecoveryPage: React.FC = () => {
         </span>
       </div>
 
-      {/* Main Checkout Card */}
-      <div className="bg-[#0D1636] border border-blue-900/50 rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl">
-        <div className="border-b border-blue-900/40 pb-4">
+      {/* Main Card */}
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl">
+        <div className="border-b border-slate-800 pb-4">
           <div className="flex items-center gap-2 mb-1">
-            <ShieldCheck className="w-5 h-5 text-blue-400" />
+            <ShieldCheck className="w-5 h-5 text-emerald-400" />
             <span className="font-bold text-white text-sm">Secure Merchant Checkout</span>
           </div>
           <h1 className="text-xl font-extrabold text-white mt-2">Payment Recovery</h1>
@@ -179,9 +179,9 @@ export const CustomerRecoveryPage: React.FC = () => {
 
         {/* Order Details */}
         {tx && (
-          <div className="bg-[#080E24] p-4 rounded-2xl border border-blue-950 space-y-3">
+          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-blue-950 text-blue-400">
+              <div className="p-2.5 rounded-xl bg-slate-800 text-emerald-400">
                 <ShoppingBag className="w-5 h-5" />
               </div>
               <div>
@@ -190,18 +190,19 @@ export const CustomerRecoveryPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-between items-center pt-3 border-t border-blue-900/50 text-xs">
+            <div className="flex justify-between items-center pt-3 border-t border-slate-800 text-xs">
               <span className="text-slate-400">Amount Due</span>
               <span className="text-xl font-extrabold text-white">₹{tx.amount.toLocaleString()}</span>
             </div>
           </div>
         )}
 
-        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-3 text-xs text-blue-300 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 shrink-0 text-blue-400" />
+        <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-xs text-emerald-300 flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
           <span>Your order is still reserved for you. You can retry safely.</span>
         </div>
 
+        {/* Error Message Handler */}
         {errorMessage && (
           <div className="bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-xs text-rose-300 flex items-center gap-2">
             <XCircle className="w-4 h-4 shrink-0 text-rose-400" />
@@ -209,12 +210,13 @@ export const CustomerRecoveryPage: React.FC = () => {
           </div>
         )}
 
+        {/* Action Button */}
         {tx?.status === 'RECOVERED' ? (
           <div className="text-center py-3 bg-emerald-500/20 text-emerald-300 rounded-xl font-bold text-sm">
             Order Already Recovered!
           </div>
         ) : tx?.status === 'MAX_ATTEMPTS_REACHED' ? (
-          <div className="text-center py-3 bg-rose-950/40 text-rose-300 rounded-xl font-medium text-xs border border-rose-800/40">
+          <div className="text-center py-3 bg-slate-800 text-rose-300 rounded-xl font-medium text-xs">
             Maximum retry attempts reached for this order link.
           </div>
         ) : (
@@ -224,21 +226,21 @@ export const CustomerRecoveryPage: React.FC = () => {
               e.stopPropagation();
               setShowConfirmModal(true);
             }}
-            className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm flex items-center justify-center gap-2 transition shadow-xl shadow-blue-600/30 cursor-pointer"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm flex items-center justify-center gap-2 transition shadow-xl shadow-emerald-500/20 cursor-pointer"
           >
             <CreditCard className="w-4 h-4" /> Retry Payment Now (₹{tx?.amount.toLocaleString()})
           </button>
         )}
 
-        {/* Razorpay Test Mode Helper */}
-        <div className="bg-[#080E24] p-4 rounded-2xl border border-blue-950 text-xs space-y-2.5 text-slate-300">
-          <div className="font-bold text-white text-xs flex items-center gap-1.5 border-b border-blue-900/50 pb-2">
-            <CreditCard className="w-4 h-4 text-blue-400" /> Supported Razorpay Test Payment Options
+        {/* Razorpay Test Mode Options Helper */}
+        <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs space-y-2.5 text-slate-300">
+          <div className="font-bold text-white text-xs flex items-center gap-1.5 border-b border-slate-800/80 pb-2">
+            <CreditCard className="w-4 h-4 text-emerald-400" /> Supported Razorpay Test Payment Options
           </div>
           <div className="space-y-1.5 text-[11px] leading-relaxed">
             <div>
               <span className="text-slate-400 font-medium">Domestic Card:</span>{' '}
-              <code className="bg-[#0F1838] px-1.5 py-0.5 rounded text-blue-300 font-mono">4111 1111 1111 1111</code>{' '}
+              <code className="bg-slate-900 px-1.5 py-0.5 rounded text-emerald-300 font-mono">4111 1111 1111 1111</code>{' '}
               <span className="text-slate-500">(Exp: 12/30, CVV: 123)</span>
             </div>
             <div>
@@ -247,27 +249,28 @@ export const CustomerRecoveryPage: React.FC = () => {
             </div>
             <div>
               <span className="text-slate-400 font-medium">UPI VPA:</span>{' '}
-              <code className="bg-[#0F1838] px-1.5 py-0.5 rounded text-indigo-300 font-mono">success@razorpay</code>
+              <code className="bg-slate-900 px-1.5 py-0.5 rounded text-indigo-300 font-mono">success@razorpay</code>
             </div>
           </div>
         </div>
 
+        {/* Secondary Return to Merchant Dashboard Button */}
         <button
           onClick={handleNavigateDashboard}
-          className="w-full py-2.5 rounded-xl bg-blue-950/60 hover:bg-blue-900/80 text-slate-300 hover:text-white border border-blue-800/40 font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
+          className="w-full py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> Return to Merchant Dashboard
         </button>
 
         <div className="text-center text-[10px] text-slate-500 flex items-center justify-center gap-1">
-          <Lock className="w-3 h-3 text-blue-400" /> Secured by Razorpay Test Gateway — No real money is charged.
+          <Lock className="w-3 h-3 text-emerald-400" /> Secured by Razorpay Test Gateway — No real money is charged.
         </div>
       </div>
 
       {/* Confirmation Step Modal */}
       {showConfirmModal && tx && (
         <div
-          className="fixed inset-0 z-50 bg-[#070D22]/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -275,7 +278,7 @@ export const CustomerRecoveryPage: React.FC = () => {
           }}
         >
           <div
-            className="bg-[#0D1636] border border-blue-900/60 rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-5 relative cursor-default text-white"
+            className="bg-slate-900 border border-slate-700 rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-5 relative cursor-default"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -284,7 +287,7 @@ export const CustomerRecoveryPage: React.FC = () => {
                 e.stopPropagation();
                 setShowConfirmModal(false);
               }}
-              className="absolute top-4 right-4 p-1.5 rounded-xl bg-blue-950 hover:bg-blue-900 text-slate-400 hover:text-white transition cursor-pointer"
+              className="absolute top-4 right-4 p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-4 h-4" />
@@ -292,14 +295,14 @@ export const CustomerRecoveryPage: React.FC = () => {
 
             <h3 className="text-lg font-bold text-white">Confirm Checkout</h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              You are about to initiate a test mode payment of <strong className="text-blue-400">₹{tx.amount.toLocaleString()}</strong> for <strong>{tx.item_name}</strong>.
+              You are about to initiate a test mode payment of <strong className="text-emerald-400">₹{tx.amount.toLocaleString()}</strong> for <strong>{tx.item_name}</strong>.
             </p>
 
             <div className="space-y-2 pt-2">
               <button
                 onClick={handleStartPayment}
                 disabled={initiatingRazorpay}
-                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition cursor-pointer disabled:opacity-50 shadow-lg shadow-blue-600/30"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 text-white font-bold text-xs transition cursor-pointer disabled:opacity-50"
               >
                 {initiatingRazorpay ? 'Initiating Razorpay...' : 'Confirm & Pay'}
               </button>
@@ -310,7 +313,7 @@ export const CustomerRecoveryPage: React.FC = () => {
                   e.stopPropagation();
                   setShowConfirmModal(false);
                 }}
-                className="w-full py-2.5 rounded-xl bg-blue-950 text-slate-300 text-xs font-medium hover:bg-blue-900 transition cursor-pointer"
+                className="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-medium hover:bg-slate-700 transition cursor-pointer"
               >
                 Cancel
               </button>

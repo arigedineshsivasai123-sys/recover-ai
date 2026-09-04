@@ -4,52 +4,20 @@
 
 @layer base {
   html, body {
-    @apply bg-[#070D22] text-slate-900 font-sans antialiased min-h-screen selection:bg-blue-600 selection:text-white;
+    @apply bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-white;
     overflow-y: auto;
   }
 }
 
-/* Custom Design Utility Tokens matching RecoverAI reference screenshot */
-.glass-panel-dark {
-  background: rgba(10, 18, 46, 0.85);
-  backdrop-filter: blur(16px);
+/* Glassmorphism utilities */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.glass-card-dark {
-  background: rgba(13, 22, 54, 0.7);
-  backdrop-filter: blur(12px);
+.glass-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* Content Canvas Card Styles */
-.card-canvas {
-  background-color: #ffffff;
-  border: 1px solid #E2E8F0;
-  border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
-  transition: all 0.2s ease-in-out;
-}
-
-.card-canvas:hover {
-  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-}
-
-/* Smooth custom scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
 }
